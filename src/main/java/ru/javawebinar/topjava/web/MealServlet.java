@@ -22,7 +22,10 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("redirect to meals");
 
-        List<MealTo> mealToList = MealsUtil.filteredByCycles(MealsUtil.meals, null, null, 2000);
+        final LocalTime startTime = LocalTime.of(0, 0);
+        final LocalTime endTime = LocalTime.of(23, 59);
+
+        List<MealTo> mealToList = MealsUtil.filteredByStreams(MealsUtil.meals, startTime, endTime, 2000);
         req.setAttribute("mealsList", mealToList);
 
         req.getRequestDispatcher("/meals.jsp").forward(req, resp);
