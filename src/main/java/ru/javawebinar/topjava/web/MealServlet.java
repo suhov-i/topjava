@@ -22,8 +22,8 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("redirect to meals");
 
-        final LocalTime startTime = LocalTime.of(0, 0);
-        final LocalTime endTime = LocalTime.of(23, 59);
+        final LocalTime startTime = LocalTime.MIN;
+        final LocalTime endTime = LocalTime.MAX;
 
         List<MealTo> mealToList = MealsUtil.filteredByStreams(MealsUtil.meals, startTime, endTime, 2000);
         req.setAttribute("mealsList", mealToList);
