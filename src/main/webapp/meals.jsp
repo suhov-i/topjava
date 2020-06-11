@@ -17,7 +17,7 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
-<a href="${pageContext.request.contextPath}/meals?action=create">Update</a>
+<a href="${pageContext.request.contextPath}/meals?action=create">Add</a>
 <table>
     <tr>
         <th>Дата/Время</th>
@@ -42,7 +42,7 @@
         </td>
 
         <td>
-                <a href="${pageContext.request.contextPath}/meals?action=create&id=<c:out value="${meal.id}"/>">Update</a>
+                <a href="${pageContext.request.contextPath}/meals?action=update&id=<c:out value="${meal.id}"/>">Update</a>
         </td>
 
         <td>

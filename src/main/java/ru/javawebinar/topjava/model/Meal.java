@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Meal {
-    private static int counter = 0;
-    private final int id = counter++; //TODO: thread-safe
+    private int id; //TODO: thread-safe
 
     private LocalDateTime dateTime;
 
@@ -18,6 +17,10 @@ public class Meal {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -42,10 +45,6 @@ public class Meal {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
-    }
-
-    public static void setCounter(int counter) {
-        Meal.counter = counter;
     }
 
     public void setDateTime(LocalDateTime dateTime) {

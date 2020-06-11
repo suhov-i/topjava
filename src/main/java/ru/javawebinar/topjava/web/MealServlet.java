@@ -22,13 +22,12 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
     private MealDaoListImpl dao = new MealDaoListImpl();
+    final LocalTime startTime = LocalTime.MIN;
+    final LocalTime endTime = LocalTime.MAX;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("redirect to meals");
-
-        final LocalTime startTime = LocalTime.MIN;
-        final LocalTime endTime = LocalTime.MAX;
 
         String forward = "";
         String action = req.getParameter("action");
@@ -63,10 +62,15 @@ public class MealServlet extends HttpServlet {
         String description = req.getParameter("description");
         LocalDateTime ldt = LocalDateTime.parse(req.getParameter("dateTime"));
         int calories = Integer.parseInt(req.getParameter("calories"));
+        int id = Integer.parseInt(req.getParameter("id"));
 
-        dao.create(description, ldt, calories);
+        if (req.getParameter("postType").equals("create")) {
+            dao.create(description, ldt, calories);
+        } else {
+            dao.update(id, description, ldt, calories);
+        }
 
-        req.setAttribute("meals", dao.getAll());
+        req.setAttribute("mealsList", MealsUtil.filteredByStreams(dao.getAll(), startTime, endTime, 2000));
         req.getRequestDispatcher("/meals.jsp").forward(req, resp);
     }
 }
