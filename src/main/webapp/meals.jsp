@@ -17,14 +17,16 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Meals</h2>
+<a href="${pageContext.request.contextPath}/meals?action=create">Update</a>
 <table>
     <tr>
         <th>Дата/Время</th>
         <th>Описание</th>
         <th>Калории</th>
+        <th>Редактировать</th>
     </tr>
 <c:forEach var="meal" items="${mealsList}">
-
+    <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealTo"/>
     <tr>
             ${meal.excess ? '<tr bgcolor="#FFAB9E">' : '<tr bgcolor="AFFFAD">'}
         <td>
@@ -38,9 +40,18 @@
         <td>
                 ${meal.calories}
         </td>
+
+        <td>
+                <a href="${pageContext.request.contextPath}/meals?action=create&id=<c:out value="${meal.id}"/>">Update</a>
+        </td>
+
+        <td>
+                <a href="${pageContext.request.contextPath}/meals?action=delete&id=<c:out value="${meal.id}"/>">Delete</a>
+        </td>
     </tr>
 
 </c:forEach>
+
 </table>
 </body>
 </html>
