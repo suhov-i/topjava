@@ -46,9 +46,8 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll() {
-        List<Meal> meals = (List<Meal>) repository.values();
-        meals.sort((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
-        return meals;
+        return (List<Meal>) repository.values().stream()
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed());
     }
 }
 
