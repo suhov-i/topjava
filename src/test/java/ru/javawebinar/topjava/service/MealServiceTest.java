@@ -1,7 +1,13 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExternalResource;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -12,6 +18,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -25,9 +33,52 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
 
     @Autowired
     private MealService service;
+
+    private long timer;
+
+
+    //test name : duration
+    private static Map<String, Long> testsDurations = new HashMap<>();
+
+    @Rule
+    public final TestName name = new TestName();
+
+    @ClassRule
+    public static final ExternalResource externalResource = new ExternalResource() {
+        @Override
+        protected void before() throws Throwable {
+
+        };
+
+        @Override
+        protected void after() {
+            testsDurations.forEach(MealServiceTest::logDuration);
+        }
+    };
+
+    private static void logDuration(String method, Long duration) {
+        log.info(String.format("%s: %d ms", method, duration));
+    }
+
+    @Rule
+    public final ExternalResource resource = new ExternalResource() {
+
+        @Override
+        protected void before() throws Throwable {
+            timer = System.currentTimeMillis();
+        }
+
+        @Override
+        protected void after() {
+            long duration = System.currentTimeMillis() - timer;
+            testsDurations.put(name.getMethodName(), duration);
+            log.info("Test finished in: " + duration + " ms");
+        }
+    };
 
     @Test
     public void delete() throws Exception {
