@@ -16,8 +16,8 @@ public class TestMatcher<T> {
         this.fieldsToIgnore = fieldsToIgnore;
     }
 
-    public static <T> TestMatcher<T> usingFieldsComparator(Class<T> clazz, String... fieldsToIgnore) {
-        return new TestMatcher<>(clazz, fieldsToIgnore);
+    public static <T> TestMatcher<T> usingFieldsWithIgnoringComparator(Class<T> clazz, String... fieldsToIgnore) {
+        return new TestMatcher<>(clazz, false, fieldsToIgnore);
     }
 
     public void assertMatch(T actual, T expected) {
