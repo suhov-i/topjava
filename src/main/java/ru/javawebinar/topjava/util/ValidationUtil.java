@@ -1,6 +1,6 @@
 package ru.javawebinar.topjava.util;
 
-
+import org.slf4j.Logger;
 import ru.javawebinar.topjava.HasId;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
