@@ -20,14 +20,14 @@ public class ProfileRestController extends AbstractUserController {
     static final String REST_URL = "/rest/profile";
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get() {
-        return super.get(authUserId());
+    public User get(@AuthenticationPrincipal AuthorizedUser authUser) {
+        return super.get(authUser.getId());
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete() {
-        super.delete(authUserId());
+    public void delete(@AuthenticationPrincipal AuthorizedUser authUser) {
+        super.delete(authUser.getId());
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -52,7 +52,7 @@ public class ProfileRestController extends AbstractUserController {
     }
 
     @GetMapping("/with-meals")
-    public User getWithMeals() {
-        return super.getWithMeals(authUserId());
+    public User getWithMeals(@AuthenticationPrincipal AuthorizedUser authUser) {
+        return super.getWithMeals(authUser.getId());
     }
 }
