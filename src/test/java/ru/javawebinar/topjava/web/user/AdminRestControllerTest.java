@@ -23,6 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.javawebinar.topjava.TestUtil.readFromJson;
 import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
 import static ru.javawebinar.topjava.UserTestData.*;
+import static ru.javawebinar.topjava.util.exception.ErrorType.VALIDATION_ERROR;
+import static ru.javawebinar.topjava.web.ExceptionInfoHandler.EXCEPTION_DUPLICATE_EMAIL;
 
 class AdminRestControllerTest extends AbstractControllerTest {
 

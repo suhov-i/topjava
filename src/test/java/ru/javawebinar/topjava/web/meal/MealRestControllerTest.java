@@ -25,6 +25,8 @@ import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
 import static ru.javawebinar.topjava.UserTestData.*;
 import static ru.javawebinar.topjava.util.MealsUtil.createTo;
 import static ru.javawebinar.topjava.util.MealsUtil.getTos;
+import static ru.javawebinar.topjava.util.exception.ErrorType.VALIDATION_ERROR;
+import static ru.javawebinar.topjava.web.ExceptionInfoHandler.EXCEPTION_DUPLICATE_DATETIME;
 
 class MealRestControllerTest extends AbstractControllerTest {
 
