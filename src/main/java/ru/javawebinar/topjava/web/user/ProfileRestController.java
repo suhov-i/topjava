@@ -11,7 +11,8 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 
-import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
+import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping(ProfileRestController.REST_URL)
@@ -29,10 +30,20 @@ public class ProfileRestController extends AbstractUserController {
         super.delete(authUserId());
     }
 
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
+        User created = super.create(userTo);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL).build().toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody UserTo userTo) {
-        super.update(userTo, authUserId());
+    public void update(@RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authUser) throws BindException {
+        checkAndValidateForUpdate(userTo, authUser.getId());
+        service.update(userTo);
     }
 
     @GetMapping(value = "/text")
